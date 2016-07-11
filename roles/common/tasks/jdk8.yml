@@ -1,0 +1,25 @@
+- name: Check if the jdk8 java binary exists
+  stat: path="{{app_folder}}/jdk8/bin/java"
+  register: check_path
+
+- name: get jdk8 tarball (as tar.gz file)
+  get_url:
+    url:     "http://download.oracle.com/otn-pub/java/jdk/8u92-b14/jdk-8u92-linux-x64.tar.gz"
+    headers: 'Cookie:oraclelicense=accept-securebackup-cookie'
+    dest:    "{{app_folder_temp}}/jdk8.tgz"
+  when: not check_path.stat.exists
+
+- name: install jdk8
+  unarchive: src="{{app_folder_temp}}/jdk8.tgz" dest="{{app_folder}}"
+  when: not check_path.stat.exists
+
+- name: symlink jdk8
+  file: path="{{app_folder}}/jdk8" src="jdk1.8.0_92" state=link force=True
+  when: not check_path.stat.exists
+
+- name: symlink jdk8 as default_jdk
+  file: src="jdk8" path="{{app_folder}}/jdk" state=link force=True
+  when: install_opts.default_jdk == "jdk8"
+
+- name: cleanup ant tarball
+  file: path="{{app_folder_temp}}/jdk8.tgz" state=absent

@@ -1,0 +1,18 @@
+- name: Check if the maven binary exists
+  stat: path="{{app_folder}}/maven/bin/mvn"
+  register: check_path
+
+- name: "download maven-{{versions.maven}}"
+  get_url: url="http://apache.osuosl.org/maven/maven-3/{{versions.maven}}/binaries/apache-maven-{{versions.maven}}-bin.tar.gz" dest="{{app_folder_temp}}/maven.tgz" mode=0440
+  when: not check_path.stat.exists
+
+- name: unpack maven
+  unarchive: src="{{app_folder_temp}}/maven.tgz" dest="{{ app_folder }}"
+  when: not check_path.stat.exists
+
+- name: symlink maven
+  file: path="{{app_folder}}/maven" src="apache-maven-{{versions.maven}}" state=link force=True
+  when: not check_path.stat.exists
+
+- name: cleanup maven tarball
+  file: path="{{app_folder_temp}}/maven.tgz" state=absent

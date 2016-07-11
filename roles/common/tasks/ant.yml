@@ -1,0 +1,18 @@
+- name: Check if the ant binary exists
+  stat: path="{{app_folder}}/ant/bin/ant"
+  register: check_path
+
+- name: "download ant-{{versions.ant}}"
+  get_url: url="http://shinyfeather.com/ant/binaries/apache-ant-{{versions.ant}}-bin.tar.gz" dest="{{app_folder_temp}}/ant.tgz" mode=0440
+  when: not check_path.stat.exists
+
+- name: unpack ant
+  unarchive: src="{{app_folder_temp}}/ant.tgz" dest="{{ app_folder }}"
+  when: not check_path.stat.exists
+
+- name: symlink ant
+  file: path="{{app_folder}}/ant" src="apache-ant-{{versions.ant}}" state=link force=True
+  when: not check_path.stat.exists
+
+- name: cleanup ant tarball
+  file: path="{{app_folder_temp}}/ant.tgz" state=absent

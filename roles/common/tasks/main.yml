@@ -1,0 +1,24 @@
+---
+# roles/common/tasks/main.yml
+
+- debug: msg="hallo {{ ansible_env.USERNAME }} - your development tools will be in {{app_folder}}"
+
+- name: Create application directory
+  file: path="{{ app_folder }}" mode=755 state=directory
+
+- name: Create temp directory
+  file: path="{{ app_folder_temp }}" mode=755 state=directory
+
+- include: ant.yml
+  when: install_opts.ant
+
+- include: maven.yml
+  when: install_opts.maven
+
+- include: jdk7.yml
+  when: install_opts.jdk7
+
+- include: jdk8.yml
+  when: install_opts.jdk8
+
+

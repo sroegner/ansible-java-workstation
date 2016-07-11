@@ -1,0 +1,49 @@
+---
+app_folder: "{{ lookup('env','HOME') }}/Apps"
+app_folder_temp: "{{ app_folder }}/temp"
+
+versions:
+  ant: 1.9.7
+  maven: 3.3.9
+
+install_opts:
+  ant: True
+  maven: True
+  jdk7: True
+  jdk8: True
+  default_jdk: jdk7
+
+pip_packages:
+  - virtualenv
+
+rubygems:
+  - sass
+
+fedora_packages:
+  - ack
+  - atop
+  - autofs
+  - conky
+  - curl
+  - dconf-editor
+  - git
+  - glances
+  - gnome-tweak-tool
+  - google-chrome-stable
+  - hddtemp
+  - htop
+  - iotop
+  - nmap
+  - openssh-server
+  - openssl-devel
+  - glances
+  - rubygems
+  - shutter
+  - system-storage-manager
+  - tree
+  - VirtualBox-5.0
+  - zsh
+  - flash-plugin
+  - alsa-plugins-pulseaudio
+  - libcurl
+  - libselinux-python

@@ -1,0 +1,25 @@
+- name: Check if the JDK7 java binary exists
+  stat: path="{{app_folder}}/jdk7/bin/java"
+  register: check_path
+
+- name: get JDK7 tarball (as tar.gz file)
+  get_url:
+    url:     "http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz"
+    headers: 'Cookie:oraclelicense=accept-securebackup-cookie'
+    dest:    "{{app_folder_temp}}/jdk7.tgz"
+  when: not check_path.stat.exists
+
+- name: install JDK7
+  unarchive: src="{{app_folder_temp}}/jdk7.tgz" dest="{{app_folder}}"
+  when: not check_path.stat.exists
+
+- name: symlink jdk7
+  file: path="{{app_folder}}/jdk7" src="jdk1.7.0_80" state=link force=True
+  when: not check_path.stat.exists
+
+- name: symlink jdk8 as default_jdk
+  file: src="jdk7" path="{{app_folder}}/jdk" state=link force=True
+  when: install_opts.default_jdk == "jdk7"
+
+- name: cleanup ant tarball
+  file: path="{{app_folder_temp}}/jdk7.tgz" state=absent
