@@ -7,17 +7,23 @@ versions:
   maven: 3.3.9
 
 install_opts:
-  ant: True
-  maven: True
-  jdk7: True
-  jdk8: True
+  ant: False
+  maven: False
+  jdk7: False
+  jdk8: False
   default_jdk: jdk7
+  npm: True
 
 pip_packages:
   - virtualenv
 
 rubygems:
   - sass
+  - fpm
+
+npm_packages:
+  - bower
+  - grunt-cli
 
 fedora_packages:
   - ack

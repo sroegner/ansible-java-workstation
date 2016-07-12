@@ -21,4 +21,6 @@
 - include: jdk8.yml
   when: install_opts.jdk8
 
+- include: npm.yml
+
 
