@@ -1,0 +1,23 @@
+# rubygems
+
+- name: Install ruby-devel pkg
+  package: name=ruby-devel state=present
+  become_user: root
+  when: (ansible_distribution == "Fedora")
+
+- name: Install libffi-devel pkg
+  package: name=libffi-devel state=present
+  become_user: root
+  when: (ansible_distribution == "Fedora")
+
+- name: Install redhat-rpm-config pkg
+  package: name=redhat-rpm-config state=present
+  become_user: root
+  when: (ansible_distribution == "Fedora")
+
+- name: Install Ruby gems
+  gem: name={{ item }} state=present
+  with_items: "{{ rubygems }}"
+  become_user: "{{ ansible_env.USERNAME }}"
+  tags: pkg
+

@@ -1,6 +1,7 @@
 ---
 - hosts: "{{ host | default('localhost') }}"
-  become: True
+  become: yes
+  become_user: steffen
   vars_files:
     - "roles/common/vars/main.yml"
   roles:

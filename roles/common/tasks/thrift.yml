@@ -1,0 +1,15 @@
+- name: Check if the thrift binary exists
+  stat: path="{{app_folder}}/bin/thrift"
+  register: check_path
+
+- name: Make bin folder
+  file: path="{{ app_folder }}/bin" state=directory
+
+- name: Download thrift for Linux
+  get_url: url=https://s3.amazonaws.com/sqrrl-public/thrift/linux/thrift dest="{{ app_folder }}/bin/thrift" mode=0755
+  when: (not check_path.stat.exists) and (ansible_system == "Linux")
+
+- name: Download thrift for MacOSX
+  get_url: url=https://s3.amazonaws.com/sqrrl-public/thrift/macosx/thrift dest="{{ app_folder }}/bin/thrift" mode=0755
+  when: (not check_path.stat.exists) and (ansible_system == "Darwin")
+

@@ -12,7 +12,9 @@ install_opts:
   jdk7: False
   jdk8: False
   default_jdk: jdk7
-  npm: True
+  npm: False
+  gems: False
+  thrift: True
 
 pip_packages:
   - virtualenv

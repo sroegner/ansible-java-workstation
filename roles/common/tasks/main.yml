@@ -22,5 +22,13 @@
   when: install_opts.jdk8
 
 - include: npm.yml
+  when: install_opts.npm
+
+- include: gems.yml
+  when: install_opts.gems
+
+- include: thrift.yml
+  when: install_opts.thrift
+
 
 
