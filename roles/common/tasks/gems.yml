@@ -15,6 +15,11 @@
   become_user: root
   when: (ansible_distribution == "Fedora")
 
+- name: Install rpm-build pkg for fpm
+  package: name=rpm-build state=present
+  become_user: root
+  when: (ansible_distribution == "Fedora")
+
 - name: Install Ruby gems
   gem: name={{ item }} state=present
   with_items: "{{ rubygems }}"
